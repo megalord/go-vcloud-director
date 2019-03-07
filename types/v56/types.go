@@ -475,8 +475,8 @@ type Task struct {
 // Since: 0.9
 type CapacityWithUsage struct {
 	Units     string `xml:"Units"`
-	Allocated int64  `xml:"Allocated,omitempty"`
-	Limit     int64  `xml:"Limit,omitempty"`
+	Allocated int64  `xml:"Allocated"`
+	Limit     int64  `xml:"Limit"`
 	Reserved  int64  `xml:"Reserved,omitempty"`
 	Used      int64  `xml:"Used,omitempty"`
 	Overhead  int64  `xml:"Overhead,omitempty"`
@@ -1977,8 +1977,6 @@ type QueryResultRecordsType struct {
 	VMWProviderVdcRecord            []*QueryResultVMWProviderVdcRecordType            `xml:"VMWProviderVdcRecord"`            // A record representing a Provider VDC result.
 	ProviderVdcStorageProfileRecord []*QueryResultProviderVdcStorageProfileRecordType `xml:"ProviderVdcStorageProfileRecord"` // A record representing a Provider VDC storage profile result
 	NetworkPoolRecord               []*QueryResultNetworkPoolRecordType               `xml:"NetworkPoolRecord"`               // A record representing a network pool
-	DiskRecord                      []*DiskRecordType                                 `xml:"DiskRecord"`                      // A record representing a independent Disk.
-	AdminDiskRecord                 []*DiskRecordType                                 `xml:"AdminDiskRecord"`                 // A record representing a independent Disk.
 	VirtualCenterRecord             []*QueryResultVirtualCenterRecordType             `xml:"VirtualCenterRecord"`             // A record representing a vSphere server
 }
 
@@ -2167,19 +2165,21 @@ type VimObjectRef struct {
 }
 
 type VimObjectRefs struct {
-	VimObjectRef []*VimObjectRef
+	VimObjectRef []*VimObjectRef `xml:VimObjectRef`
 }
 
 type ExternalNetwork struct {
+	//type VMWExternalNetwork struct {
 	XMLName          xml.Name              `xml:"VMWExternalNetwork"`
 	Xmlns            string                `xml:"xmlns,attr,omitempty"`
+	XmlnsVCloud      string                `xml:"xmlns:vcloud,attr,omitempty"`
 	HREF             string                `xml:"href,attr,omitempty"`
 	Type             string                `xml:"type,attr,omitempty"`
 	ID               string                `xml:"id,attr,omitempty"`
 	OperationKey     string                `xml:"operationKey,attr,omitempty"`
 	Name             string                `xml:"name,attr"`
+	Description      string                `xml:"vcloud:Description,omitempty"`
 	Configuration    *NetworkConfiguration `xml:"Configuration,omitempty"`
-	Description      string                `xml:"Description,omitempty"`
 	Link             []*Link               `xml:"Link,omitempty"`
 	VimPortGroupRefs *VimObjectRefs        `xml:"VimPortGroupRefs,omitempty"`
 	Tasks            *TasksInProgress      `xml:"Tasks,omitempty"`
